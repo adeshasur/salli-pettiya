@@ -223,6 +223,7 @@ export default function Home() {
                 checkedDays={checkedDays}
                 toggleDay={toggleDay}
                 currentDay={24}
+                totalDays={parseInt(days) || 31}
               />
             </div>
           </div>
