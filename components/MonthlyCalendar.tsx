@@ -33,16 +33,16 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay }: 
     }
 
     return (
-        <div className="bg-zinc-900/40 p-4 rounded-[1.5rem] border border-zinc-800 backdrop-blur-sm ml-auto">
-            <h3 className="text-xl font-bold mb-2 text-green-500">Savings Calendar</h3>
-            <p className="text-base text-zinc-400 mb-3">December 2025</p>
+        <div className="bg-zinc-900/40 p-6 rounded-2xl border border-zinc-800/50 backdrop-blur-sm shadow-lg shadow-zinc-900/10 hover:bg-zinc-900/50 transition-colors duration-200">
+            <h3 className="text-lg font-semibold mb-2 text-green-500">Savings Calendar</h3>
+            <p className="text-sm font-medium text-zinc-400 mb-4">December 2025</p>
 
             {/* Day Names Header */}
-            <div className="grid grid-cols-7 gap-2 mb-2">
+            <div className="grid grid-cols-7 gap-1.5 mb-2">
                 {dayNames.map((dayName) => (
                     <div
                         key={dayName}
-                        className="text-center text-xs font-bold text-green-500/70 uppercase tracking-wider py-1"
+                        className="text-center text-xs font-bold text-green-500/60 uppercase tracking-wider py-1"
                     >
                         {dayName}
                     </div>
@@ -50,7 +50,7 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay }: 
             </div>
 
             {/* Calendar Grid */}
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1.5">
                 {calendarDays.map((day, index) => {
                     if (day === null) {
                         // Empty cell for days before month starts
@@ -68,13 +68,13 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay }: 
                             key={day}
                             onClick={() => toggleDay(dayIndex)}
                             className={`
-                aspect-square flex items-center justify-center rounded-lg border-2 cursor-pointer
-                transition-all duration-300 font-bold text-base relative
+                aspect-square flex items-center justify-center rounded-lg border cursor-pointer
+                transition-all duration-150 font-bold text-sm relative
                 ${isChecked
-                                    ? 'bg-green-500 border-green-400 text-black shadow-lg shadow-green-500/20'
+                                    ? 'bg-green-500 border-green-400 text-black shadow-md shadow-green-500/20 hover:scale-105'
                                     : isPast
-                                        ? 'bg-black/30 border-zinc-800/50 text-zinc-600 hover:border-green-500/30'
-                                        : 'bg-black/50 border-zinc-800 text-white hover:border-green-500/50 hover:bg-zinc-800/70'
+                                        ? 'bg-black/30 border-zinc-800/50 text-zinc-600 hover:border-green-500/30 hover:scale-105'
+                                        : 'bg-black/50 border-zinc-800 text-white hover:border-green-500/50 hover:bg-zinc-800/70 hover:scale-105'
                                 }
                 ${isToday ? 'ring-2 ring-green-500/50 ring-offset-2 ring-offset-zinc-900' : ''}
               `}
@@ -89,20 +89,20 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay }: 
             </div>
 
             {/* Legend */}
-            <div className="mt-3 pt-3 border-t border-zinc-800 flex flex-wrap gap-3 text-xs">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded border-2 border-green-500 bg-green-500" />
-                    <span className="text-zinc-400">Completed</span>
+            <div className="mt-4 pt-4 border-t border-zinc-800 flex flex-wrap gap-4 text-[11px]">
+                <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded border border-green-500 bg-green-500" />
+                    <span className="text-zinc-400 font-medium">Completed</span>
                 </div>
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded border-2 border-green-500 bg-black relative">
+                <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded border border-green-500 bg-black relative">
                         <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
-                    <span className="text-zinc-400">Today</span>
+                    <span className="text-zinc-400 font-medium">Today</span>
                 </div>
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded border-2 border-zinc-800 bg-black" />
-                    <span className="text-zinc-400">Upcoming</span>
+                <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded border border-zinc-800 bg-black" />
+                    <span className="text-zinc-400 font-medium">Upcoming</span>
                 </div>
             </div>
         </div>
