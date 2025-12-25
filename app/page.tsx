@@ -168,25 +168,40 @@ export default function Home() {
           {/* Middle Column (5 cols) */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             {/* Row 1: Quote */}
-            <div className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/50 shadow-lg shadow-zinc-900/10 flex items-center justify-center h-[130px] hover:bg-zinc-900/50 transition-colors duration-200">
-              <p className="text-2xl font-normal text-center opacity-90 px-4 leading-relaxed">
-                {(() => {
-                  const quotes = [
-                    "Every rupee saved is a rupee earned!",
-                    "Small steps lead to big achievements!",
-                    "Save today, smile tomorrow!",
-                    "Consistency is the key to success!",
-                    "Dream big, save small, achieve more!",
-                    "Your future depends on what you do today!",
-                    "A penny saved is a penny earned!",
-                    "Financial freedom starts with small savings!",
-                    "Build your wealth one day at a time!",
-                    "Smart saving leads to smart living!"
-                  ];
-                  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
-                  return quotes[dayOfYear % quotes.length];
-                })()}
-              </p>
+            <div className="relative group overflow-hidden">
+              {/* Animated gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 via-amber-500/10 to-orange-500/20 rounded-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Floating sparkles */}
+              <div className="absolute top-2 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-ping opacity-75" />
+              <div className="absolute bottom-3 left-6 w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse opacity-60" />
+              <div className="absolute top-1/2 right-8 w-1 h-1 bg-yellow-300 rounded-full animate-pulse opacity-70" style={{ animationDelay: '0.5s' }} />
+
+              {/* Main card */}
+              <div className="relative bg-gradient-to-br from-zinc-900/60 via-zinc-900/50 to-zinc-900/60 p-5 rounded-2xl border border-yellow-500/30 shadow-lg shadow-yellow-500/10 flex items-center justify-center h-[130px] hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-500/20 transition-all duration-500 backdrop-blur-sm group-hover:scale-[1.01]">
+                {/* Quote icon */}
+                <div className="absolute top-3 left-4 text-yellow-500/20 text-5xl font-serif leading-none select-none">"</div>
+
+                {/* Quote text with animation */}
+                <p className="relative text-2xl font-normal text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-100 to-yellow-200 px-4 leading-relaxed animate-in fade-in slide-in-from-bottom-3 duration-1000 group-hover:from-yellow-100 group-hover:via-amber-50 group-hover:to-yellow-100 transition-all">
+                  {(() => {
+                    const quotes = [
+                      "Every rupee saved is a rupee earned!",
+                      "Small steps lead to big achievements!",
+                      "Save today, smile tomorrow!",
+                      "Consistency is the key to success!",
+                      "Dream big, save small, achieve more!",
+                      "Your future depends on what you do today!",
+                      "A penny saved is a penny earned!",
+                      "Financial freedom starts with small savings!",
+                      "Build your wealth one day at a time!",
+                      "Smart saving leads to smart living!"
+                    ];
+                    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+                    return quotes[dayOfYear % quotes.length];
+                  })()}
+                </p>
+              </div>
             </div>
 
             {/* Row 2: Summary Cards Grid - 2x2 */}
