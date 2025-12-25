@@ -22,10 +22,10 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay, to
     const startDate = new Date(startYear, startMonth, startDay);
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + totalDays - 1);
-    
+
     // Calculate total months covered
-    const totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 + 
-                        (endDate.getMonth() - startDate.getMonth()) + 1;
+    const totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+        (endDate.getMonth() - startDate.getMonth()) + 1;
 
     // Calculate displayed month/year
     const displayDate = new Date(startYear, startMonth + currentMonthOffset, 1);
@@ -90,36 +90,34 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay, to
     return (
         <div className="bg-zinc-900/40 p-6 rounded-2xl border border-zinc-800/50 backdrop-blur-sm shadow-lg shadow-zinc-900/10 hover:bg-zinc-900/50 transition-colors duration-200">
             <h3 className="text-lg font-semibold mb-2 text-green-500">Savings Calendar</h3>
-            
+
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-4">
                 <button
                     onClick={handlePrevious}
                     disabled={!canGoPrevious}
-                    className={`w-8 h-8 flex items-center justify-center rounded-lg border transition-all duration-200 ${
-                        canGoPrevious 
+                    className={`w-8 h-8 flex items-center justify-center rounded-lg border transition-all duration-200 ${canGoPrevious
                             ? 'border-green-500/50 text-green-500 hover:bg-green-500/10 hover:scale-110 cursor-pointer'
                             : 'border-zinc-800/50 text-zinc-700 cursor-not-allowed'
-                    }`}
+                        }`}
                     aria-label="Previous month"
                 >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
-                
+
                 <p className="text-sm font-medium text-zinc-400">
                     {monthName} {displayYear}
                 </p>
-                
+
                 <button
                     onClick={handleNext}
                     disabled={!canGoNext}
-                    className={`w-8 h-8 flex items-center justify-center rounded-lg border transition-all duration-200 ${
-                        canGoNext 
+                    className={`w-8 h-8 flex items-center justify-center rounded-lg border transition-all duration-200 ${canGoNext
                             ? 'border-green-500/50 text-green-500 hover:bg-green-500/10 hover:scale-110 cursor-pointer'
                             : 'border-zinc-800/50 text-zinc-700 cursor-not-allowed'
-                    }`}
+                        }`}
                     aria-label="Next month"
                 >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,13 +139,12 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay, to
             </div>
 
             {/* Calendar Grid with Animation */}
-            <div 
+            <div
                 key={currentMonthOffset}
-                className={`grid grid-cols-7 gap-1.5 transition-all duration-300 ${
-                    slideDirection === 'left' ? 'opacity-0 -translate-x-4' :
-                    slideDirection === 'right' ? 'opacity-0 translate-x-4' :
-                    'opacity-100 translate-x-0'
-                }`}
+                className={`grid grid-cols-7 gap-1.5 transition-all duration-300 ${slideDirection === 'left' ? 'opacity-0 -translate-x-4' :
+                        slideDirection === 'right' ? 'opacity-0 translate-x-4' :
+                            'opacity-100 translate-x-0'
+                    }`}
             >
                 {calendarDays.map((day, index) => {
                     if (day === null) {
@@ -158,28 +155,42 @@ export default function MonthlyCalendar({ checkedDays, toggleDay, currentDay, to
                     const isChecked = checkedDays.includes(dayIndex);
                     const isToday = isCurrentMonthDisplayed && day === todayDate;
                     const isInRange = dayIndex >= 0 && dayIndex < totalDays;
-                    const isPast = dayIndex < (getDayIndex(currentDay));
+
+                    // Calculate if date is in the past, present, or future based on actual today
+                    const currentDate = new Date(displayYear, displayMonth, day);
+                    const actualToday = new Date();
+                    actualToday.setHours(0, 0, 0, 0);
+                    currentDate.setHours(0, 0, 0, 0);
+
+                    const isPast = currentDate < actualToday;
+                    const isFuture = currentDate > actualToday;
+                    const isCurrentDay = currentDate.getTime() === actualToday.getTime();
+
+                    // Only allow clicking on past dates and today (not future dates)
+                    const isClickable = isInRange && !isFuture;
 
                     return (
                         <div
                             key={day}
-                            onClick={() => isInRange && toggleDay(dayIndex)}
+                            onClick={() => isClickable && toggleDay(dayIndex)}
                             className={`
-                                aspect-square flex items-center justify-center rounded-lg border cursor-pointer
+                                aspect-square flex items-center justify-center rounded-lg border
                                 transition-all duration-150 font-bold text-sm relative
-                                ${!isInRange 
+                                ${!isInRange
                                     ? 'bg-black/10 border-zinc-800/30 text-zinc-800 cursor-not-allowed opacity-30'
                                     : isChecked
-                                        ? 'bg-green-500 border-green-400 text-black shadow-md shadow-green-500/20 hover:scale-105'
+                                        ? 'bg-green-500 border-green-400 text-black shadow-md shadow-green-500/20 hover:scale-105 cursor-pointer'
                                         : isPast
-                                            ? 'bg-black/30 border-zinc-800/50 text-zinc-600 hover:border-green-500/30 hover:scale-105'
-                                            : 'bg-black/50 border-zinc-800 text-white hover:border-green-500/50 hover:bg-zinc-800/70 hover:scale-105'
+                                            ? 'bg-black/20 border-zinc-800/40 text-zinc-500 opacity-60 hover:opacity-80 hover:border-green-500/30 hover:scale-105 cursor-pointer'
+                                            : isFuture
+                                                ? 'bg-zinc-900/30 border-zinc-700/50 text-zinc-300 cursor-not-allowed opacity-50'
+                                                : 'bg-black/50 border-zinc-800 text-white hover:border-green-500/50 hover:bg-zinc-800/70 hover:scale-105 cursor-pointer'
                                 }
-                                ${isToday ? 'ring-2 ring-green-500/50 ring-offset-2 ring-offset-zinc-900' : ''}
+                                ${isToday || isCurrentDay ? 'ring-2 ring-green-500/50 ring-offset-2 ring-offset-zinc-900' : ''}
                             `}
                         >
                             {day}
-                            {isToday && (
+                            {(isToday || isCurrentDay) && (
                                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                             )}
                         </div>

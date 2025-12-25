@@ -66,8 +66,9 @@ export default function Home() {
     }
   };
 
-  // Calculate current streak
   const calculateStreak = () => {
+    if (!days || isNaN(parseInt(days))) return 0;
+
     let streak = 0;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -87,7 +88,9 @@ export default function Home() {
     return streak;
   };
 
-  const progressPercentage = (checkedDays.length / parseInt(days)) * 100;
+  const progressPercentage = (days && !isNaN(parseInt(days)) && parseInt(days) > 0)
+    ? (checkedDays.length / parseInt(days)) * 100
+    : 0;
   const currentStreak = calculateStreak();
 
   return (
@@ -127,10 +130,10 @@ export default function Home() {
       </div>
 
       {daily > 0 && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 animate-in fade-in slide-in-from-bottom-5 duration-700">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in slide-in-from-bottom-5 duration-700">
 
           {/* Left Column (3 cols) */}
-          <div className="lg:col-span-3 flex flex-col gap-5">
+          <div className="lg:col-span-3 flex flex-col gap-6">
             {/* Row 1: Daily Amount Card */}
             <div className="bg-green-500 p-5 rounded-2xl text-black shadow-lg shadow-green-500/10 flex flex-col items-center justify-center h-[130px] transition-colors duration-200 hover:bg-green-400">
               <p className="text-sm font-bold opacity-70 uppercase tracking-wider mb-2">Daily Savings Required</p>
@@ -163,7 +166,7 @@ export default function Home() {
           </div>
 
           {/* Middle Column (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-5">
+          <div className="lg:col-span-5 flex flex-col gap-6">
             {/* Row 1: Quote */}
             <div className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/50 shadow-lg shadow-zinc-900/10 flex items-center justify-center h-[130px] hover:bg-zinc-900/50 transition-colors duration-200">
               <p className="text-2xl font-normal text-center opacity-90 px-4 leading-relaxed">
@@ -187,7 +190,7 @@ export default function Home() {
             </div>
 
             {/* Row 2: Summary Cards Grid - 2x2 */}
-            <div className="grid grid-cols-2 gap-5 flex-1">
+            <div className="grid grid-cols-2 gap-6 flex-1">
               {/* Current Streak */}
               <div className="bg-gradient-to-r from-orange-500/15 to-red-500/15 p-5 rounded-2xl border border-orange-500/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-gradient-to-r hover:from-orange-500/20 hover:to-red-500/20 transition-colors duration-200">
                 <p className="text-xs font-medium text-orange-400 uppercase tracking-wider mb-2">Current Streak</p>
@@ -210,7 +213,7 @@ export default function Home() {
               {/* Days Left */}
               <div className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-zinc-900/50 transition-colors duration-200">
                 <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2">Days Left</p>
-                <h3 className="text-4xl font-bold text-white tracking-tight">{parseInt(days) - checkedDays.length}</h3>
+                <h3 className="text-4xl font-bold text-white tracking-tight">{isNaN(parseInt(days)) ? 0 : Math.max(0, parseInt(days) - checkedDays.length)}</h3>
                 <p className="text-[10px] font-normal text-zinc-600 mt-2">days</p>
               </div>
             </div>
