@@ -146,16 +146,37 @@ export default function Home() {
             </div>
 
             {/* Row 3: Till Progress */}
-            <div className="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800/50 shadow-lg shadow-zinc-900/10 flex flex-col items-center justify-center h-[150px] hover:bg-zinc-900/60 transition-colors duration-200">
+            <div className="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800/50 shadow-lg shadow-zinc-900/10 flex flex-col items-center justify-center h-[150px] hover:bg-zinc-900/60 hover:border-green-500/30 transition-all duration-300 group">
               <h4 className="text-xs font-medium text-zinc-400 mb-3 uppercase tracking-wider">Till Progress</h4>
-              <div className="relative w-16 h-24 border-2 border-zinc-700 rounded-b-3xl rounded-t-lg overflow-hidden bg-black">
+              <div className="relative w-16 h-24 border-2 border-zinc-700 rounded-b-3xl rounded-t-lg overflow-hidden bg-black group-hover:border-green-600/50 transition-colors duration-300">
+                {/* Green fill with gradient */}
                 <div
-                  className="absolute bottom-0 w-full bg-green-500 transition-all duration-500 ease-out"
-                  style={{ height: `${progressPercentage}%` }}
+                  className="absolute bottom-0 w-full bg-gradient-to-t from-green-600 via-green-500 to-green-400 transition-all duration-700 ease-out"
+                  style={{
+                    height: `${progressPercentage}%`,
+                    transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  }}
                 >
-                  <div className="absolute top-0 left-0 w-full h-3 bg-green-400 opacity-50 animate-pulse"></div>
+                  {/* Shimmer overlay - moves up and down */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white/40 via-transparent to-transparent opacity-60 animate-pulse"
+                    style={{ animationDuration: '2s' }} />
+
+                  {/* Wave effect at top of liquid */}
+                  <div className="absolute top-0 left-0 w-full h-2 bg-green-300 opacity-60">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-200 to-transparent animate-pulse" />
+                  </div>
+
+                  {/* Bubbles rising */}
+                  <div className="absolute bottom-2 left-2 w-1.5 h-1.5 bg-green-200/60 rounded-full animate-ping"
+                    style={{ animationDuration: '2s', animationDelay: '0s' }} />
+                  <div className="absolute bottom-4 right-3 w-1 h-1 bg-green-100/50 rounded-full animate-ping"
+                    style={{ animationDuration: '2.5s', animationDelay: '0.5s' }} />
+                  <div className="absolute bottom-6 left-4 w-1 h-1 bg-green-200/40 rounded-full animate-ping"
+                    style={{ animationDuration: '3s', animationDelay: '1s' }} />
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center font-black text-lg mix-blend-difference text-white">
+
+                {/* Percentage text */}
+                <div className="absolute inset-0 flex items-center justify-center font-black text-lg mix-blend-difference text-white drop-shadow-lg">
                   {Math.round(progressPercentage || 0)}%
                 </div>
               </div>
