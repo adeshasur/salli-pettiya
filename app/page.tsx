@@ -209,7 +209,17 @@ export default function Home() {
               {/* Current Streak */}
               <div className="bg-gradient-to-r from-orange-500/15 to-red-500/15 p-5 rounded-2xl border border-orange-500/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-gradient-to-r hover:from-orange-500/20 hover:to-red-500/20 transition-colors duration-200">
                 <p className="text-xs font-medium text-orange-400 uppercase tracking-wider mb-2">Current Streak</p>
-                <h3 className="text-4xl font-bold text-orange-400 tracking-tight">🔥 {currentStreak}</h3>
+                <h3 className="text-4xl font-bold text-orange-400 tracking-tight flex items-center gap-2">
+                  <span className="inline-block animate-bounce" style={{ animationDuration: '1.5s' }}>
+                    <span className="inline-block animate-pulse" style={{
+                      filter: 'drop-shadow(0 0 8px rgba(251, 146, 60, 0.8))',
+                      animationDuration: '2s'
+                    }}>
+                      🔥
+                    </span>
+                  </span>
+                  {currentStreak}
+                </h3>
                 <p className="text-[10px] font-normal text-orange-300/70 mt-2">consecutive days</p>
               </div>
 
