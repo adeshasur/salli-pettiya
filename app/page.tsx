@@ -10,7 +10,7 @@ export default function Home() {
   const [daily, setDaily] = useState(0);
   const [checkedDays, setCheckedDays] = useState<number[]>([]);
 
-  // Load data from localStorage on mount
+
   useEffect(() => {
     const savedData = localStorage.getItem('salli-pettiya-data');
     if (savedData) {
@@ -22,7 +22,7 @@ export default function Home() {
     }
   }, []);
 
-  // Save data to localStorage whenever it changes
+
   useEffect(() => {
     if (daily > 0) {
       const dataToSave = { amount, days, daily, checkedDays };
@@ -33,11 +33,11 @@ export default function Home() {
   const calculate = () => {
     if (amount > 0 && days > 0) {
       setDaily(Number((amount / days).toFixed(2)));
-      setCheckedDays([]); // Reset checked days when recalculating
+      setCheckedDays([]);
     }
   };
 
-  // Coin sound effect function
+
   const playCoinSound = () => {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
@@ -46,7 +46,7 @@ export default function Home() {
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    // Coin sound characteristics
+
     oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
     oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
 
@@ -58,7 +58,7 @@ export default function Home() {
   };
 
   const toggleDay = (dayIndex: number) => {
-    playCoinSound(); // Play sound on toggle
+    playCoinSound();
     if (checkedDays.includes(dayIndex)) {
       setCheckedDays(checkedDays.filter(d => d !== dayIndex));
     } else {
@@ -74,15 +74,15 @@ export default function Home() {
     today.setHours(0, 0, 0, 0);
 
     for (let i = 0; i < parseInt(days); i++) {
-      const dayDate = new Date(2025, 11, 24 + i); // Starting from Dec 24, 2025
+      const dayDate = new Date(2025, 11, 24 + i);
       dayDate.setHours(0, 0, 0, 0);
 
-      if (dayDate > today) break; // Don't count future days
+      if (dayDate > today) break;
 
       if (checkedDays.includes(i)) {
         streak++;
       } else {
-        break; // Streak is broken
+        break;
       }
     }
     return streak;
@@ -97,7 +97,7 @@ export default function Home() {
     <main className="max-w-[1280px] mx-auto px-6 py-4 min-h-screen">
       <Header />
 
-      {/* Input Section - Unified Control Group */}
+
       <div className="mb-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800/50 backdrop-blur-lg shadow-lg shadow-zinc-900/10">
           <div className="space-y-2">
@@ -132,24 +132,24 @@ export default function Home() {
       {daily > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in slide-in-from-bottom-5 duration-700">
 
-          {/* Left Column (3 cols) */}
+
           <div className="lg:col-span-3 flex flex-col gap-6">
-            {/* Row 1: Daily Amount Card */}
+
             <div className="bg-green-500 p-5 rounded-2xl text-black shadow-lg shadow-green-500/10 flex flex-col items-center justify-center h-[130px] transition-colors duration-200 hover:bg-green-400">
               <p className="text-sm font-bold opacity-70 uppercase tracking-wider mb-2">Daily Savings Required</p>
               <h2 className="text-4xl font-black tracking-tighter">Rs. {daily.toLocaleString()}</h2>
             </div>
 
-            {/* Row 2: Chart */}
+
             <div className="flex-1">
               <SavingsChart days={days} amount={amount} />
             </div>
 
-            {/* Row 3: Till Progress */}
+
             <div className="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800/50 shadow-lg shadow-zinc-900/10 flex flex-col items-center justify-center h-[150px] hover:bg-zinc-900/60 hover:border-green-500/30 transition-all duration-300 group">
               <h4 className="text-xs font-medium text-zinc-400 mb-3 uppercase tracking-wider">Till Progress</h4>
               <div className="relative w-16 h-24 border-2 border-zinc-700 rounded-b-3xl rounded-t-lg overflow-hidden bg-black group-hover:border-green-600/50 transition-colors duration-300">
-                {/* Green fill with gradient */}
+
                 <div
                   className="absolute bottom-0 w-full bg-gradient-to-t from-green-600 via-green-500 to-green-400 transition-all duration-700 ease-out"
                   style={{
@@ -157,16 +157,16 @@ export default function Home() {
                     transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                 >
-                  {/* Shimmer overlay - moves up and down */}
+
                   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white/40 via-transparent to-transparent opacity-60 animate-pulse"
                     style={{ animationDuration: '2s' }} />
 
-                  {/* Wave effect at top of liquid */}
+
                   <div className="absolute top-0 left-0 w-full h-2 bg-green-300 opacity-60">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-200 to-transparent animate-pulse" />
                   </div>
 
-                  {/* Bubbles rising */}
+
                   <div className="absolute bottom-2 left-2 w-1.5 h-1.5 bg-green-200/60 rounded-full animate-ping"
                     style={{ animationDuration: '2s', animationDelay: '0s' }} />
                   <div className="absolute bottom-4 right-3 w-1 h-1 bg-green-100/50 rounded-full animate-ping"
@@ -175,7 +175,7 @@ export default function Home() {
                     style={{ animationDuration: '3s', animationDelay: '1s' }} />
                 </div>
 
-                {/* Percentage text */}
+
                 <div className="absolute inset-0 flex items-center justify-center font-black text-lg mix-blend-difference text-white drop-shadow-lg">
                   {Math.round(progressPercentage || 0)}%
                 </div>
@@ -186,24 +186,24 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Middle Column (5 cols) */}
+
           <div className="lg:col-span-5 flex flex-col gap-6">
-            {/* Row 1: Quote */}
+
             <div className="relative group overflow-hidden">
-              {/* Animated gradient background */}
+
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 via-amber-500/10 to-orange-500/20 rounded-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Floating sparkles */}
+
               <div className="absolute top-2 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-ping opacity-75" />
               <div className="absolute bottom-3 left-6 w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse opacity-60" />
               <div className="absolute top-1/2 right-8 w-1 h-1 bg-yellow-300 rounded-full animate-pulse opacity-70" style={{ animationDelay: '0.5s' }} />
 
-              {/* Main card */}
+
               <div className="relative bg-gradient-to-br from-zinc-900/60 via-zinc-900/50 to-zinc-900/60 p-5 rounded-2xl border border-yellow-500/30 shadow-lg shadow-yellow-500/10 flex items-center justify-center h-[130px] hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-500/20 transition-all duration-500 backdrop-blur-sm group-hover:scale-[1.01]">
-                {/* Quote icon */}
+
                 <div className="absolute top-3 left-4 text-yellow-500/20 text-5xl font-serif leading-none select-none">"</div>
 
-                {/* Quote text with animation */}
+
                 <p className="relative text-2xl font-normal text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-100 to-yellow-200 px-4 leading-relaxed animate-in fade-in slide-in-from-bottom-3 duration-1000 group-hover:from-yellow-100 group-hover:via-amber-50 group-hover:to-yellow-100 transition-all">
                   {(() => {
                     const quotes = [
@@ -225,9 +225,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Row 2: Summary Cards Grid - 2x2 */}
+
             <div className="grid grid-cols-2 gap-6 flex-1">
-              {/* Current Streak */}
+
               <div className="bg-gradient-to-r from-orange-500/15 to-red-500/15 p-5 rounded-2xl border border-orange-500/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-gradient-to-r hover:from-orange-500/20 hover:to-red-500/20 transition-colors duration-200">
                 <p className="text-xs font-medium text-orange-400 uppercase tracking-wider mb-2">Current Streak</p>
                 <h3 className="text-4xl font-bold text-orange-400 tracking-tight flex items-center gap-2">
@@ -244,19 +244,19 @@ export default function Home() {
                 <p className="text-[10px] font-normal text-orange-300/70 mt-2">consecutive days</p>
               </div>
 
-              {/* Total Saved */}
+
               <div className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-zinc-900/50 transition-colors duration-200">
                 <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2">Total Saved</p>
                 <h3 className="text-4xl font-bold text-green-500 tracking-tight">Rs. {(checkedDays.length * daily).toLocaleString()}</h3>
               </div>
 
-              {/* Remaining */}
+
               <div className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-zinc-900/50 transition-colors duration-200">
                 <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2">Remaining</p>
                 <h3 className="text-4xl font-bold text-white tracking-tight">Rs. {(parseFloat(amount) - (checkedDays.length * daily)).toLocaleString()}</h3>
               </div>
 
-              {/* Days Left */}
+
               <div className="bg-zinc-900/40 p-5 rounded-2xl border border-zinc-800/50 backdrop-blur-sm flex flex-col items-center justify-center shadow-lg shadow-zinc-900/10 hover:bg-zinc-900/50 transition-colors duration-200">
                 <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2">Days Left</p>
                 <h3 className="text-4xl font-bold text-white tracking-tight">{isNaN(parseInt(days)) ? 0 : Math.max(0, parseInt(days) - checkedDays.length)}</h3>
@@ -265,7 +265,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Column (4 cols) - Calendar Anchor */}
+
           <div className="lg:col-span-4 flex">
             <div className="w-full">
               <MonthlyCalendar
